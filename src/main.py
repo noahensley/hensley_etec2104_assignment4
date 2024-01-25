@@ -15,7 +15,7 @@ HTMLDIR = os.path.abspath(
 def makeApp():
     endpoints=[
         ("/",Index.Handler),
-        ("/roulette",Roulette.Handler)
+        ("/roulette",Roulette.Handler),
         ("/profile/.*",Profile.Handler)
     ]
     
