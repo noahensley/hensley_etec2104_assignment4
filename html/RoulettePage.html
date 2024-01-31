@@ -1,11 +1,3 @@
-<!--
-<!DOCTYPE html>
-<html>
-<title text-color="red">Roullete Game</title>
-<head>Right-click -> Inspect -> Console</head>
-<script src="/static/roulette.js"></script>
-</html>
--->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,10 +7,20 @@
   <title>Roulette Game!</title>
 </head>
 <div>
-  <button onclick="runRoulette()">Spin!</button>
+  <button onclick="runRoulette(); toggleSegments()">Spin!</button>
+</div>
+<div>
+  <canvas id="wheel"></canvas>
 </div>
 <div id="resultbox">
-  <th id="resultheader">Number Color Pairity Pass/Fail</th>
+  <table id="resulttable">
+    <tr class="resultbody">
+      <th>Number</th>
+      <th>Color</th>
+      <th>Pairity</th>
+      <th>Pass/Fail</th>
+    </tr>
+  </table>
 </div>
 <script src="/static/roulette.js"></script>
 </html>

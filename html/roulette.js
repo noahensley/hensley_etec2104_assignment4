@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 function runRoulette() {
     let result = randomSpin();
@@ -23,15 +23,15 @@ function randomSpin() {
 
     let index = Math.floor(Math.random() * (RouletteList.length - 1));
     let value = RouletteList[index];
-    let frenchNumber = frenchNumbers[value];
+    //let frenchNumber = frenchNumbers[value];
 
-    AnswerMessage.push(frenchNumber + "! (" + value + ")");
+    AnswerMessage.push(value);
 
-    isEven(index) ? AnswerMessage.push("Rouge!") : AnswerMessage.push("Noir!");
+    isEven(index) ? AnswerMessage.push("Rouge") : AnswerMessage.push("Noir");
 
-    isEven(value) ? AnswerMessage.push("Pair!") : AnswerMessage.push("Impair!");
+    isEven(value) ? AnswerMessage.push("Pair") : AnswerMessage.push("Impair");
 
-    isPasse(value) ? AnswerMessage.push("Passe!") : AnswerMessage.push("Manque!");
+    isPasse(value) ? AnswerMessage.push("Passe") : AnswerMessage.push("Manque");
 
     return AnswerMessage;
 }
@@ -71,22 +71,91 @@ function isPasse(value) {
 }
 
 function displayResult(result) {
-
-    let th = document.getElementById("resultheader");
+    let tbl = document.getElementById("resulttable");
+    tbl.style.borderCollapse = "collapse";
     let tr = document.createElement("tr");
-    let td = document.createElement("td");
-    let data = document.createTextNode( result );
-    td.value = data;
-    tr.appendChild(td);
-    th.appendChild(tr);
-    document.body.appendChild(th);
-
-    // make a table with id="" for grabbing
-    // then make a new tr which has four td's: result[0] -> result[3]
-    // then use appendChild to the grabbed TABLE.
-
-    //table
-    // <tr> <td> <td> <td> <td> <tr>
-    //or use th instead of td.  They are the same, one cell.
-
+    tr.style.border = "1px solid black";
+    for (let i = 0; i < result.length; i++) {
+        let td = document.createElement("td");
+        td.textContent = result[i];
+        td.style.textAlign = "left";
+        tr.appendChild(td);
+    }   
+    tbl.appendChild(tr);
+    document.body.appendChild(tbl);
 }
+
+// I used ChatGPT to write this function
+function drawSegmentedCircle(colors) {
+    const canvas = document.getElementById('wheel');
+    const ctx = canvas.getContext('2d');
+    
+    // Set the canvas size
+    canvas.width = 200;
+    canvas.height = 200;
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = 80;
+
+    // Draw the red circle
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+    ctx.fillStyle = 'red';
+    ctx.fill();
+
+    // Draw alternating red and black segments
+    for (let i = 0; i < 16; i++) {
+      ctx.beginPath();
+      ctx.moveTo(centerX, centerY);
+      ctx.arc(centerX, centerY, radius, (i / 8) * Math.PI, ((i + 1) / 8) * Math.PI);
+      ctx.fillStyle = colors[i % 2];
+      ctx.fill();
+    }
+  }
+
+  // ChatGPT wrote this function for me as well
+  function toggleSegments() {
+    const canvas = document.getElementById('wheel');
+    const ctx = canvas.getContext('2d');
+
+    // Colors array for toggling
+    const colors = ['red', 'black'];
+
+    // Perform 10 toggles over 3 seconds
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => {
+        // Toggle colors and redraw the segmented circle
+        drawSegmentedCircle(colors);
+        // Swap the colors for the next iteration
+        colors.reverse();
+      }, i * 300); // Adjust the delay as needed
+    }
+  }
+
+
+
+/*function wheelAnimation() {
+    loadImages(["/static/wheel1.png", "/static/wheel2.png", "/static/wheel3.png", "/static/wheel4.png", "/static/wheel5.png"], loadIsDone);
+}
+
+function loadImages( imgs, callback ){
+    let numToLoad = imgs.length;
+    let loaded=[];
+    imgs.forEach( (url, idx) => {
+        let img = document.createElement("img");
+        loaded[idx] = img;
+        img.addEventListener("load", ()=>{
+            numToLoad--;
+            if( numToLoad === 0 ){
+                callback(loaded);
+            }
+        });
+        img.src = url;
+    });
+}
+
+function loadIsDone( images ){
+    let img = images[2];
+    ctx.drawImage(img, 40, 50);
+}*/
