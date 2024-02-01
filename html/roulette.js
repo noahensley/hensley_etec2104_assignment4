@@ -70,6 +70,24 @@ function isPasse(value) {
     }
 }
 
+// Returns a list of style values.
+function formatColor(string) {
+    if (string === "Rouge")
+        return ["red", "black"];
+    if (string === "Noir")
+        return ["black", "white"];
+    if (string === "Pair")
+        return ["aquamarine", "black"];
+    if (string === "Impair")
+        return ["lightsalmon", "black"];
+    if (string === "Passe")
+        return ["aquamarine", "black"];
+    if (string === "Manque")
+        return ["lightsalmon", "black"];
+    if (string === undefined)
+        return [];
+}
+
 function displayResult(result) {
     let tbl = document.getElementById("resulttable");
     tbl.style.borderCollapse = "collapse";
@@ -79,6 +97,13 @@ function displayResult(result) {
         let td = document.createElement("td");
         td.textContent = result[i];
         td.style.textAlign = "left";
+        if (i > 0) {
+            let L = formatColor(result[i]);
+            let backgroundColor = L[0];
+            let textColor = L[1];
+            td.style.backgroundColor = backgroundColor;
+            td.style.color = textColor;
+        }
         tr.appendChild(td);
     }   
     tbl.appendChild(tr);
