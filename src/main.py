@@ -3,6 +3,7 @@ import tornado.web
 import Index
 import Roulette
 import Profile
+import Sock
 import os.path
 
 HTMLDIR = os.path.abspath(
@@ -16,7 +17,8 @@ def makeApp():
     endpoints=[
         ("/",Index.Handler),
         ("/roulette",Roulette.Handler),
-        ("/profile/.*",Profile.Handler)
+        ("/profile/.*",Profile.Handler),
+        ("/sock",Sock.Handler)
     ]
     
     app = tornado.web.Application(endpoints, static_path=HTMLDIR)

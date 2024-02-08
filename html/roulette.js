@@ -1,8 +1,11 @@
 "use strict";
 
+let sock;
+
 function runRoulette() {
     let result = randomSpin();
-    displayResult(result);
+    //displayResult(result);
+    sock.send(JSON.stringify(result))
 }
 
 function randomSpin() {
@@ -148,7 +151,7 @@ function drawSegmentedCircle(colors) {
     const colors = ['red', 'black'];
 
     // Perform 10 toggles over 3 seconds
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 8; i++) {
       setTimeout(() => {
         // Toggle colors and redraw the segmented circle
         drawSegmentedCircle(colors);
@@ -158,29 +161,23 @@ function drawSegmentedCircle(colors) {
     }
   }
 
-
-
-/*function wheelAnimation() {
-    loadImages(["/static/wheel1.png", "/static/wheel2.png", "/static/wheel3.png", "/static/wheel4.png", "/static/wheel5.png"], loadIsDone);
+  function gotSpinResult(event){
+    if (event.data != 'Someone has joined the casino.' && event.data != 'Someone has left the casino.');
+    {
+        let parsed_data = JSON.parse(event.data);  
+        displayResult(parsed_data);
+        toggleSegments();
+    }
 }
 
-function loadImages( imgs, callback ){
-    let numToLoad = imgs.length;
-    let loaded=[];
-    imgs.forEach( (url, idx) => {
-        let img = document.createElement("img");
-        loaded[idx] = img;
-        img.addEventListener("load", ()=>{
-            numToLoad--;
-            if( numToLoad === 0 ){
-                callback(loaded);
-            }
-        });
-        img.src = url;
+  function main(){
+    sock = new WebSocket("ws://"+document.location.host+"/sock");
+    sock.addEventListener("open", ()=>{ 
+        document.getElementById("spinButton").disabled=0
+        console.log("SOCK IS OPEN");
     });
+    sock.addEventListener("message", gotSpinResult);
+
 }
 
-function loadIsDone( images ){
-    let img = images[2];
-    ctx.drawImage(img, 40, 50);
-}*/
+main();
